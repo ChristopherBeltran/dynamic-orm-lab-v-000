@@ -53,17 +53,13 @@ class InteractiveRecord
     DB[:conn].execute(sql)
   end
   
-  def self.find_by(input)
-        input.map do |key, val|
-          if val.is_a? Integer
-            sql = "SELECT * FROM #{self.table_name} WHERE '#{key}' = #{val}"
-            DB[:conn].execute(sql)
-          else 
-            sql_s = "SELECT * FROM #{self.table_name} WHERE '#{key}' = '#{val}'"
-            DB[:conn].execute(sql_s)
-          end 
-        end 
-      end 
+  def self.find_by(attribute_hash)
+    value = attribute_hash.values.first
+    formatted_value = value.class == Fixnum ? value : "'#{value}'"
+    sql = "SELECT * FROM #{self.table_name} WHERE #{attribute_hash.keys.first} = #{formatted_value}"
+    DB[:conn].execute(sql)
+  end
+end
   
             
     
