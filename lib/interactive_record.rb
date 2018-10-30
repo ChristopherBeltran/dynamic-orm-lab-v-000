@@ -54,7 +54,7 @@ class InteractiveRecord
   end
   
   def self.find_by(input)
-        input.each do |key, val|
+        input.map do |key, val|
           if val.is_a? Integer
             sql = "SELECT * FROM #{self.table_name} WHERE '#{key}' = #{val}"
             DB[:conn].execute(sql)
