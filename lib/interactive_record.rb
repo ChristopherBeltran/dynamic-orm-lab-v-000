@@ -1,5 +1,6 @@
 require_relative "../config/environment.rb"
 require 'active_support/inflector'
+require 'pry'
 
 class InteractiveRecord
   
@@ -57,6 +58,7 @@ class InteractiveRecord
     if value.is_a? Integer
     sql = "SELECT * FROM #{self.table_name} WHERE '#{attribute}' = #{value}"
     DB[:conn].execute(sql)
+    binding.pry
   else 
     sql_string = "SELECT * FROM #{self.table_name} WHERE '#{attribute}' = '#{value}'"
     DB[:conn].execute(sql_string)
