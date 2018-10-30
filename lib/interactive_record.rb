@@ -53,15 +53,22 @@ class InteractiveRecord
     DB[:conn].execute(sql)
   end
   
-  def self.find_by(attribute: value)
-    if value.is_a? Integer
-    sql = "SELECT * FROM #{self.table_name} WHERE '#{attribute}' = #{value}"
-    DB[:conn].execute(sql)
-  else 
-    sql_string = "SELECT * FROM #{self.table_name} WHERE '#{attribute}' = '#{value}'"
-    DB[:conn].execute(sql_string)
-  end 
-  end 
+  def self.find_by(input)
+    if input.is_a? Hash
+        input.each do |key, val|
+          if val.is_a? Integer
+            sql = "SELECT * FROM #{self.table_name} WHERE '#{key}' = #{val}"
+            DB[:conn].execute(sql)
+          else 
+            sql_s = "SELECT * FROM #{self.table_name} WHERE '#{key}' = '#{val}'"
+            DB[:conn].execute(sql_s)
+          end 
+        end 
+      end 
+    end 
+            
+    
+
   
   
 end
